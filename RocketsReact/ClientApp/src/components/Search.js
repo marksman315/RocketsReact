@@ -1,22 +1,30 @@
 ﻿import React from 'react';
 import PropTypes from "prop-types";
 import ReactDOM from 'react-dom';
-import SearchResult from './SearchResult';
+import SearchResultList from './SearchResultList';
 
 export class Search extends React.Component {
     displayName = Search.name
 
     state = {
         searchInput: '',
-        performSearch: false
+        performSearch: false,
+        results: ''
     };
 
     handleSearchButtonClicked = () => {
-        //alert('You clicked me!');
+        var proxyUrl = 'https://cors-anywhere.herokuapp.com/',
+            targetUrl = 'https://rocketsapi.azurewebsites.net/api/Values/model/' + this.state.searchInput
 
-        this.setState({            
-            performSearch: true
-        });
+        fetch(proxyUrl + targetUrl)
+            .then(response => response.json())
+            .then(data => {
+                this.setState({ results: data, performSearch: true });
+            });
+
+        //this.setState({            
+        //    performSearch: true
+        //});
     }
 
     updateInputValue(evt) {
@@ -34,7 +42,7 @@ export class Search extends React.Component {
                     <input type='text' value={this.state.searchInput} onChange={evt => this.updateInputValue(evt)}></input>&nbsp;&nbsp;
                     <button onClick={this.handleSearchButtonClicked}>Search</button>
                     <br />
-                    <SearchResult performSearch={this.state.performSearch} searchInput={this.state.searchInput}/>
+                    <SearchResultList performSearch={this.state.performSearch} searchInput={this.state.searchInput} results={this.state.results}/>
                 </div>
             </div>
         );

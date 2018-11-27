@@ -1,11 +1,12 @@
 ﻿import React from 'react';
 
-const SearchResult = {
+class SearchResultList extends React.Component {
 
     render() {
         if (this.props.performSearch === true) {
             return (
                 <div>
+                    <h2>Results</h2>
                     <p>Changed</p>
                 </div>
             );
@@ -18,8 +19,8 @@ const SearchResult = {
             );
         }
 
-        
+
     }
 }
 
-export default SearchResult;
+export default SearchResultList;
